@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/retention-rule.schema.json",
+  "title": "Retention Rule",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "rule_id",
+    "target_zone",
+    "record_type",
+    "retention_days",
+    "on_expiration",
+    "audit_requirement"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.2.0"
+    },
+    "rule_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "target_zone": {
+      "type": "string",
+      "enum": [
+        "shadow_staging",
+        "candidate_pool",
+        "summary_cache",
+        "quarantine",
+        "discard_buffer",
+        "core_memory",
+        "audit_archive"
+      ]
+    },
+    "record_type": {
+      "type": "string",
+      "enum": [
+        "raw_input",
+        "intermediate_output",
+        "summary",
+        "trace_record",
+        "audit_record",
+        "promotion_candidate",
+        "quarantined_record"
+      ]
+    },
+    "retention_days": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "on_expiration": {
+      "type": "string",
+      "enum": [
+        "delete",
+        "compress",
+        "keep_summary_only",
+        "move_to_audit_archive",
+        "require_human_review"
+      ]
+    },
+    "audit_requirement": {
+      "type": "object",
+      "required": [
+        "audit_required",
+        "trace_required",
+        "human_review_required"
+      ],
+      "properties": {
+        "audit_required": {
+          "type": "boolean"
+        },
+        "trace_required": {
+          "type": "boolean"
+        },
+        "human_review_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
