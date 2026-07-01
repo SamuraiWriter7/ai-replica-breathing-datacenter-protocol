@@ -1,14 +1,14 @@
 # AI Replica Breathing Data Center Protocol
 
-A minimal protocol for managing AI replica clusters as a breathing data center: staging, filtering, compressing, auditing, discarding, retaining, repairing, coordinating, and promoting only valuable outputs to a core data center.
+A minimal protocol for managing AI replica clusters as a breathing data center: staging, filtering, compressing, auditing, discarding, retaining, repairing, coordinating, measuring, and promoting only valuable outputs to a core data center.
 
 ## Overview
 
-The **AI Replica Breathing Data Center Protocol** defines a lightweight structure for managing AI replica agents as a temporary, energy-efficient, auditable, repairable, and coordinated processing layer.
+The **AI Replica Breathing Data Center Protocol** defines a lightweight structure for managing AI replica agents as a temporary, energy-efficient, auditable, repairable, coordinated, and measurable processing layer.
 
-Instead of sending every raw input, log, draft, intermediate output, failed attempt, uncertain result, and replica decision directly to a primary data center, replica agents first handle local or shadow processing.
+Instead of sending every raw input, log, draft, intermediate output, failed attempt, uncertain result, replica decision, and promotion candidate directly to a primary data center, replica agents first handle local or shadow processing.
 
-The replica layer acts like a breathing organ with repair and coordination loops:
+The replica layer acts like a breathing organ with repair, coordination, and measurement loops:
 
 ```text
 Inhale -> Stage -> Filter -> Compress -> Audit -> Exhale -> Retain or Promote
@@ -18,11 +18,14 @@ Inhale -> Stage -> Filter -> Compress -> Audit -> Exhale -> Retain or Promote
                                       |
                                       v
                               Assign -> Handoff -> Synchronize -> Resolve
+                                      |
+                                      v
+                              Measure -> Budget -> Receipt -> Promote
 ```
 
 The goal is not to multiply AI agents without limit.
 
-The goal is to reduce waste by allowing lightweight replica agents to absorb, test, discard, compress, audit, repair, coordinate, retain, and promote only what matters.
+The goal is to reduce waste by allowing lightweight replica agents to absorb, test, discard, compress, audit, repair, coordinate, measure, retain, and promote only what matters.
 
 ## Core Concept
 
@@ -40,6 +43,8 @@ This can create:
 * Accumulation of low-quality intermediate results
 * Silent promotion of flawed outputs
 * Coordination conflicts between parallel agents
+* Unmeasured energy and runtime cost
+* Unclear evidence for why something entered core storage
 
 A replica breathing data center changes the flow:
 
@@ -50,9 +55,10 @@ Raw input
   -> Audit record
   -> Repair loop if needed
   -> Coordination and handoff if multiple replicas are involved
+  -> Execution metrics and energy budget check
   -> Exhale low-value data
   -> Retain temporary summaries or traces
-  -> Promote high-value data to core storage
+  -> Promote high-value data with a promotion receipt
 ```
 
 In this model:
@@ -63,8 +69,10 @@ In this model:
 * The **retention layer** determines how long staged or compressed records remain available.
 * The **repair layer** detects, isolates, repairs, and re-audits flawed replica outputs.
 * The **coordination layer** assigns roles, manages handoffs, records replica collaboration, and resolves conflicts.
+* The **energy budget layer** limits tokens, runtime, repair attempts, and core-model activation.
+* The **metrics layer** records execution cost, token usage, runtime, handoffs, and estimated savings.
+* The **promotion receipt layer** records what was promoted, why it was promoted, what was retained, and who approved it.
 * The **core data center** acts as long-term memory and structural storage.
-* The **promotion policy** determines what deserves permanent retention.
 
 ## Why Breathing Matters
 
@@ -81,6 +89,8 @@ It should also:
 * Retain temporary traces only when useful
 * Repair flawed records before promotion
 * Coordinate multiple replicas safely
+* Measure token, runtime, and energy budget usage
+* Produce receipts for core promotion
 * Promote only valuable records to core storage
 
 Without exhalation, data centers become overloaded.
@@ -94,6 +104,10 @@ Without promotion rules, everything flows into the core by default.
 Without repair loops, flawed outputs either spread silently or get discarded without recovery.
 
 Without coordination, multiple replicas can duplicate work, conflict with each other, or promote inconsistent results.
+
+Without energy budgeting, lightweight replica systems can still become expensive loops.
+
+Without promotion receipts, core memory can grow without clear justification.
 
 This protocol treats AI infrastructure as a metabolic system rather than a static warehouse.
 
@@ -122,14 +136,26 @@ This protocol treats AI infrastructure as a metabolic system rather than a stati
       |
       +--> Coordinate: assign / handoff / synchronize / resolve
       |
+      +--> Measure: tokens / runtime / energy estimate / core avoided
+      |
+      +--> Receipt: record promotion basis and retained artifacts
+      |
       +--> Promote: send valuable records to core data center
 ```
 
-## v0.4 Scope
+## v0.5 Scope
 
-Version `0.4.0` extends the repairable breathing layer with a dedicated **Multi-Replica Coordination Layer**.
+Version `0.5.0` extends the coordinated breathing layer with a dedicated **Energy Budget & Promotion Receipt Layer**.
 
-v0.4 adds:
+v0.5 adds:
+
+| Schema                                 | Purpose                                                                                                                                                   |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `energy-budget-policy.schema.json`     | Defines token limits, runtime limits, core activation policy, energy tracking, fallback action, and safety boundaries                                     |
+| `execution-metrics-record.schema.json` | Records token usage, runtime, replica participation, estimated energy use, core-model avoidance, and workflow outcome                                     |
+| `promotion-receipt.schema.json`        | Records what was promoted to the core, why it was promoted, what artifacts were retained, efficiency summary, human review status, and trace requirements |
+
+v0.5 builds on the v0.4 coordination schemas:
 
 | Schema                            | Purpose                                                                                                                      |
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -137,7 +163,7 @@ v0.4 adds:
 | `replica-handoff.schema.json`     | Defines structured handoffs between replica agents, including transferred state, boundaries, and receipt status              |
 | `coordination-record.schema.json` | Records multi-replica participation, task steps, conflict status, final state, and trace requirements                        |
 
-v0.4 builds on the v0.3 repair schemas:
+v0.5 also builds on the v0.3 repair schemas:
 
 | Schema                      | Purpose                                                                                  |
 | --------------------------- | ---------------------------------------------------------------------------------------- |
@@ -145,7 +171,7 @@ v0.4 builds on the v0.3 repair schemas:
 | `repair-loop.schema.json`   | Defines one complete repair loop from detection to final decision                        |
 | `repair-record.schema.json` | Records before/after repair state, issue type, repair result, and trace requirements     |
 
-v0.4 also builds on the v0.2 staging and exhalation schemas:
+v0.5 also builds on the v0.2 staging and exhalation schemas:
 
 | Schema                          | Purpose                                                              |
 | ------------------------------- | -------------------------------------------------------------------- |
@@ -153,7 +179,7 @@ v0.4 also builds on the v0.2 staging and exhalation schemas:
 | `exhalation-record.schema.json` | Records discard, compression, quarantine, and promotion actions      |
 | `retention-rule.schema.json`    | Defines how long staged, compressed, or audited records are retained |
 
-v0.4 also builds on the v0.1 core schemas:
+v0.5 also builds on the v0.1 core schemas:
 
 | Schema                                | Purpose                                                         |
 | ------------------------------------- | --------------------------------------------------------------- |
@@ -180,7 +206,7 @@ Examples:
 
 ### Breathing Cycle
 
-A complete processing loop in which replica agents receive data, stage it, filter it, compress it, audit it, and either discard, retain, quarantine, repair, coordinate, or promote it.
+A complete processing loop in which replica agents receive data, stage it, filter it, compress it, audit it, and either discard, retain, quarantine, repair, coordinate, measure, receipt, or promote it.
 
 A breathing cycle includes:
 
@@ -193,7 +219,10 @@ A breathing cycle includes:
 7. Retention
 8. Repair
 9. Coordination
-10. Promotion
+10. Energy Budgeting
+11. Metrics Recording
+12. Promotion Receipt
+13. Promotion
 
 ### Staging Layer
 
@@ -226,7 +255,7 @@ Exhalation may mean:
 
 ### Retention Rule
 
-A retention rule defines how long a staged, compressed, quarantined, repaired, coordinated, or audited record should remain available.
+A retention rule defines how long a staged, compressed, quarantined, repaired, coordinated, measured, or audited record should remain available.
 
 Retention actions may include:
 
@@ -310,6 +339,61 @@ It includes:
 * Final state
 * Trace requirements
 
+### Energy Budget Policy
+
+An energy budget policy defines how much work a replica layer may perform before stopping, compressing, escalating, or deferring to the core.
+
+It includes:
+
+* Budget scope
+* Maximum active replicas
+* Token budget
+* Runtime budget
+* Repair attempt budget
+* Core model activation policy
+* Energy tracking mode
+* Fallback action
+* Safety boundary
+
+### Execution Metrics Record
+
+An execution metrics record captures how a replica task actually ran.
+
+It includes:
+
+* Related breathing cycle
+* Coordination ID
+* Participating replicas
+* Token usage
+* Runtime
+* Repair attempts
+* Handoff count
+* Energy estimate
+* Core model avoidance
+* Records discarded
+* Records retained
+* Final outcome
+
+### Promotion Receipt
+
+A promotion receipt records why and how a staged record was promoted into a core destination.
+
+It includes:
+
+* Source cycle
+* Source zone
+* Source replica
+* Destination target
+* Write mode
+* Promotion decision basis
+* Reuse score
+* Origin value
+* Risk score
+* Retained artifacts
+* Efficiency summary
+* Human review status
+* Trace requirements
+
 ### Promotion
 
 The act of moving selected records from the replica staging layer into a core destination.
@@ -334,7 +418,10 @@ Minimum safety principles:
 * No default network access
 * No default shell access
 * No unbounded parallelism
+* No unbounded runtime
+* No unbounded token growth
 * No direct core writes by default
+* No core model activation without policy
 * No silent promotion to core memory
 * No silent deletion of high-value records
 * No repair loop that bypasses audit
@@ -342,10 +429,11 @@ Minimum safety principles:
 * No repeated repair attempts without escalation
 * No handoff without receipt when receipt is required
 * No unresolved conflict promoted to core
-* Human review for sensitive, permanent, or unresolved actions
-* Trace records for promotion, repair, and coordination decisions
+* No promotion without a receipt
+* Human review for sensitive, permanent, unresolved, or high-impact actions
+* Trace records for promotion, repair, coordination, and budget decisions
 * Audit records for high-value or high-risk outputs
-* Retention rules for temporary, staged, repaired, and coordinated records
+* Retention rules for temporary, staged, repaired, coordinated, and measured records
 
 ## Recommended Default Limits
 
@@ -356,18 +444,25 @@ network_access: false
 shell_access: false
 direct_core_write_allowed: false
 no_unbounded_parallelism: true
+no_unbounded_runtime: true
+no_unbounded_token_growth: true
 core_promotion_requires_review: true
+core_model_activation_requires_policy: true
 raw_retention_days: 14
 compress_after_days: 7
 max_repair_attempts: 2
+max_runtime_seconds: 300
+max_total_tokens: 16000
 quarantine_on_high_risk: true
 human_review_required_after_attempts: 2
 handoff_receipt_required: true
 handoff_timeout_seconds: 300
 human_review_on_unresolved_conflict: true
+promotion_receipt_required: true
 discard_low_value_data: true
 trace_required: true
 audit_required: true
+energy_tracking_enabled: true
 ```
 
 ## Repository Structure
@@ -389,7 +484,10 @@ ai-replica-breathing-datacenter-protocol/
 │   ├── repair-record.schema.json
 │   ├── coordination-policy.schema.json
 │   ├── replica-handoff.schema.json
-│   └── coordination-record.schema.json
+│   ├── coordination-record.schema.json
+│   ├── energy-budget-policy.schema.json
+│   ├── execution-metrics-record.schema.json
+│   └── promotion-receipt.schema.json
 ├── examples/
 │   ├── replica-agent.example.yaml
 │   ├── replica-breathing-cycle.example.yaml
@@ -402,7 +500,10 @@ ai-replica-breathing-datacenter-protocol/
 │   ├── repair-record.example.yaml
 │   ├── coordination-policy.example.yaml
 │   ├── replica-handoff.example.yaml
-│   └── coordination-record.example.yaml
+│   ├── coordination-record.example.yaml
+│   ├── energy-budget-policy.example.yaml
+│   ├── execution-metrics-record.example.yaml
+│   └── promotion-receipt.example.yaml
 ├── scripts/
 │   └── validate_examples.py
 └── .github/
@@ -604,6 +705,61 @@ It includes:
 * Final state
 * Trace requirements
 
+### Energy Budget Policy
+
+`schemas/energy-budget-policy.schema.json`
+
+Defines the budget layer for bounded replica execution.
+
+It includes:
+
+* Budget scope
+* Maximum active replicas
+* Token budget
+* Compute budget
+* Energy tracking mode
+* Fallback action
+* Safety boundary
+
+### Execution Metrics Record
+
+`schemas/execution-metrics-record.schema.json`
+
+Defines a record of actual runtime behavior.
+
+It includes:
+
+* Metrics ID
+* Related cycle ID
+* Coordination ID
+* Measured scope
+* Replica list
+* Token usage
+* Runtime
+* Core model activation status
+* Repair attempts
+* Handoff count
+* Energy estimate
+* Outcome
+
+### Promotion Receipt
+
+`schemas/promotion-receipt.schema.json`
+
+Defines a receipt for promotion into a core destination.
+
+It includes:
+
+* Receipt ID
+* Source cycle
+* Source zone
+* Destination
+* Promotion decision
+* Retained artifacts
+* Efficiency summary
+* Human review status
+* Trace requirements
+
 ## Validation
 
 Install dependencies:
@@ -645,6 +801,12 @@ Expected result:
 [ok] replica-handoff.example.yaml is valid
 [validate] Coordination Record
 [ok] coordination-record.example.yaml is valid
+[validate] Energy Budget Policy
+[ok] energy-budget-policy.example.yaml is valid
+[validate] Execution Metrics Record
+[ok] execution-metrics-record.example.yaml is valid
+[validate] Promotion Receipt
+[ok] promotion-receipt.example.yaml is valid
 ```
 
 ## Design Philosophy
@@ -657,7 +819,9 @@ Do not keep everything forever.
 Do not let lightweight agents become unbounded.
 Do not promote flawed outputs without repair.
 Do not let multiple replicas conflict silently.
-Let the replica layer breathe, self-correct, and coordinate.
+Do not spend unlimited compute proving low-value results.
+Do not promote anything without a receipt.
+Let the replica layer breathe, self-correct, coordinate, measure, and prove.
 ```
 
 A replica breathing data center is not a storage dump.
@@ -671,7 +835,9 @@ Too much centralization creates compute pressure.
 Too much retention without expiration creates silent overload.
 Too much repair without escalation creates endless loops.
 Too much parallelism without coordination creates replica conflict.
-A breathing replica layer balances all six.
+Too much execution without measurement creates hidden cost.
+Too much promotion without receipts creates untrusted memory.
+A breathing replica layer balances all eight.
 ```
 
 ## Version History
@@ -694,19 +860,25 @@ This version made the replica data center capable of detecting flawed outputs, i
 
 ### v0.4.0-candidate — Multi-Replica Coordination Layer
 
-Adds coordination policies, replica handoffs, and coordination records.
+Added coordination policies, replica handoffs, and coordination records.
 
-This version makes the replica data center capable of assigning roles, handing off work between replicas, synchronizing state, resolving conflicts, and recording final coordination outcomes.
+This version made the replica data center capable of assigning roles, handing off work between replicas, synchronizing state, resolving conflicts, and recording final coordination outcomes.
+
+### v0.5.0-candidate — Energy Budget & Promotion Receipt Layer
+
+Adds energy budget policies, execution metrics records, and promotion receipts.
+
+This version makes the replica data center capable of measuring its own execution cost, recording estimated savings, limiting runtime and token growth, and producing receipts for core data center promotion.
 
 ## Status
 
 Current version:
 
 ```text
-v0.4.0-candidate
+v0.5.0-candidate
 ```
 
-v0.4 defines the coordination layer for managing AI replica agents as a breathing, self-correcting, and coordinated data center.
+v0.5 defines the energy budget and promotion receipt layer for managing AI replica agents as a breathing, self-correcting, coordinated, and measurable data center.
 
 The current scope covers:
 
@@ -722,9 +894,13 @@ The current scope covers:
 * Coordination policy
 * Replica handoff
 * Coordination record
+* Energy budget policy
+* Execution metrics record
+* Promotion receipt
 * Example validation
 * GitHub Actions validation
 
 ## License
 
 This repository may define its license policy in a future version.
+
