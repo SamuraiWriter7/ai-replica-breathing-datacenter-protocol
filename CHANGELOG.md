@@ -2,6 +2,120 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0-candidate] - 2026-07-01
+
+### Added
+
+* Added `coordination-policy.schema.json`.
+* Added `replica-handoff.schema.json`.
+* Added `coordination-record.schema.json`.
+* Added `coordination-policy.example.yaml`.
+* Added `replica-handoff.example.yaml`.
+* Added `coordination-record.example.yaml`.
+* Updated `scripts/validate_examples.py` to validate v0.4 examples.
+* Updated README with v0.4 multi-replica coordination layer documentation.
+
+### Defined
+
+* Coordination Policy
+* Coordination Mode
+* Role Assignment
+* Replica Handoff
+* Handoff Receipt
+* State Transfer
+* Coordination Record
+* Coordination Step
+* Conflict Status
+* Conflict Resolution Strategy
+* Final Coordination State
+* Multi-Replica Safety Boundary
+
+### Validation
+
+* Confirmed that all v0.4 examples pass schema validation.
+* Confirmed GitHub Actions validation passes successfully.
+
+Validated v0.4 examples:
+
+* `coordination-policy.example.yaml`
+* `replica-handoff.example.yaml`
+* `coordination-record.example.yaml`
+
+Full validation set:
+
+* `replica-agent.example.yaml`
+* `replica-breathing-cycle.example.yaml`
+* `promotion-policy.example.yaml`
+* `staging-policy.example.yaml`
+* `exhalation-record.example.yaml`
+* `retention-rule.example.yaml`
+* `repair-policy.example.yaml`
+* `repair-loop.example.yaml`
+* `repair-record.example.yaml`
+* `coordination-policy.example.yaml`
+* `replica-handoff.example.yaml`
+* `coordination-record.example.yaml`
+
+### Philosophy
+
+v0.4 extends the breathing model by defining how multiple replica agents coordinate safely.
+
+v0.1 defined the basic breathing core.
+
+v0.2 defined staging and exhalation.
+
+v0.3 defined the repair immune layer.
+
+v0.4 defines the coordination layer:
+
+* How roles are assigned
+* How many replicas may be active
+* How work is handed off between replicas
+* How handoff receipts are recorded
+* How transferred state is bounded
+* How conflicts are detected
+* How conflicts are resolved
+* When human review is required
+* How final coordination state is recorded
+
+The goal is to prevent AI replica infrastructure from becoming an unbounded swarm or a silent conflict generator.
+
+### Core Flow
+
+```text
+Assign -> Handoff -> Synchronize -> Resolve -> Commit
+```
+
+The coordination loop complements the breathing and repair flows:
+
+```text
+Inhale -> Stage -> Filter -> Compress -> Audit -> Exhale -> Retain or Promote
+                                      |
+                                      v
+                              Detect -> Isolate -> Repair -> Re-audit
+                                      |
+                                      v
+                              Assign -> Handoff -> Synchronize -> Resolve
+```
+
+### Notes
+
+This release establishes the multi-replica coordination layer for AI replica breathing infrastructure.
+
+The protocol can now describe not only intake, staging, exhalation, retention, and repair, but also safe collaboration between multiple bounded replicas.
+
+This makes the replica data center more capable as a coordinated cluster without allowing unlimited parallelism or uncontrolled self-replication.
+
+Future versions may extend the protocol with:
+
+* Energy-saving metrics
+* Core memory promotion receipts
+* Human review gates
+* Replica orchestration receipts
+* Cross-replica conflict resolution
+* Runtime budget limits
+* Local-first execution profiles
+
 ## [0.3.0-candidate] - 2026-07-01
 
 ### Added
@@ -254,5 +368,6 @@ Future versions may extend the protocol with:
 * Multi-replica coordination
 * Energy-saving metrics
 * Core memory promotion receipts
+
 
 
