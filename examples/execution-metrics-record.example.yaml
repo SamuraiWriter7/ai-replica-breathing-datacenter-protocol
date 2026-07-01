@@ -1,0 +1,44 @@
+schema_version: "0.5.0"
+metrics_id: "metrics-2026-07-01-001"
+created_at: "2026-07-01T00:00:00Z"
+related_cycle_id: "breath-cycle-2026-07-01-001"
+coordination_id: "coordination-2026-07-01-001"
+measured_scope: "coordination_task"
+
+replicas:
+  - replica_id: "replica-intake-001"
+    role: "intake"
+    model_class: "small"
+  - replica_id: "replica-classifier-001"
+    role: "classifier"
+    model_class: "small"
+  - replica_id: "replica-compressor-001"
+    role: "compressor"
+    model_class: "small"
+  - replica_id: "replica-auditor-001"
+    role: "auditor"
+    model_class: "small"
+
+token_usage:
+  input_tokens: 4200
+  output_tokens: 1100
+  total_tokens: 5300
+
+execution:
+  runtime_seconds: 42.5
+  core_model_activated: false
+  repair_attempts: 1
+  handoff_count: 3
+
+energy_estimate:
+  measurement_mode: "estimated"
+  estimated_energy_wh: 0.42
+  estimated_core_avoided: true
+  estimated_savings_ratio: 0.78
+  notes: "Lightweight replicas completed staging, compression, audit, and repair without activating the core model."
+
+outcome:
+  status: "completed_with_repair"
+  promotion_candidate: true
+  records_discarded: 3
+  records_retained: 1
