@@ -1,22 +1,25 @@
 # AI Replica Breathing Data Center Protocol
 
-A minimal protocol for managing AI replica clusters as a breathing data center: staging, filtering, compressing, auditing, discarding, retaining, and promoting only valuable outputs to a core data center.
+A minimal protocol for managing AI replica clusters as a breathing data center: staging, filtering, compressing, auditing, discarding, retaining, repairing, and promoting only valuable outputs to a core data center.
 
 ## Overview
 
-The **AI Replica Breathing Data Center Protocol** defines a lightweight structure for managing AI replica agents as a temporary, energy-efficient, and auditable processing layer.
+The **AI Replica Breathing Data Center Protocol** defines a lightweight structure for managing AI replica agents as a temporary, energy-efficient, auditable, and repairable processing layer.
 
-Instead of sending every raw input, log, draft, intermediate output, and failed attempt directly to a primary data center, replica agents first handle local or shadow processing.
+Instead of sending every raw input, log, draft, intermediate output, failed attempt, and uncertain result directly to a primary data center, replica agents first handle local or shadow processing.
 
-The replica layer acts like a breathing organ:
+The replica layer acts like a breathing organ with an immune repair loop:
 
 ```text
-Inhale -> Stage -> Filter -> Compress -> Audit -> Exhale -> Promote
+Inhale -> Stage -> Filter -> Compress -> Audit -> Exhale -> Retain or Promote
+                                      |
+                                      v
+                              Detect -> Isolate -> Repair -> Re-audit
 ```
 
 The goal is not to multiply AI agents without limit.
 
-The goal is to reduce waste by allowing lightweight replica agents to absorb, test, discard, compress, audit, retain, and promote only what matters.
+The goal is to reduce waste by allowing lightweight replica agents to absorb, test, discard, compress, audit, repair, retain, and promote only what matters.
 
 ## Core Concept
 
@@ -31,6 +34,8 @@ This can create:
 * Excessive logging
 * Expensive failure loops
 * Uncontrolled memory growth
+* Accumulation of low-quality intermediate results
+* Silent promotion of flawed outputs
 
 A replica breathing data center changes the flow:
 
@@ -39,6 +44,7 @@ Raw input
   -> Replica staging layer
   -> Filtering and compression
   -> Audit record
+  -> Repair loop if needed
   -> Exhale low-value data
   -> Retain temporary summaries or traces
   -> Promote high-value data to core storage
@@ -50,6 +56,7 @@ In this model:
 * The **staging layer** prevents raw data from entering the core too early.
 * The **exhalation layer** releases, compresses, quarantines, or discards unnecessary records.
 * The **retention layer** determines how long staged or compressed records remain available.
+* The **repair layer** detects, isolates, repairs, and re-audits flawed replica outputs.
 * The **core data center** acts as long-term memory and structural storage.
 * The **promotion policy** determines what deserves permanent retention.
 
@@ -66,6 +73,7 @@ It should also:
 * Audit risky or important outputs
 * Exhale unnecessary data
 * Retain temporary traces only when useful
+* Repair flawed records before promotion
 * Promote only valuable records to core storage
 
 Without exhalation, data centers become overloaded.
@@ -75,6 +83,8 @@ Without audit, memory becomes unreliable.
 Without retention rules, temporary data becomes permanent by accident.
 
 Without promotion rules, everything flows into the core by default.
+
+Without repair loops, flawed outputs either spread silently or get discarded without recovery.
 
 This protocol treats AI infrastructure as a metabolic system rather than a static warehouse.
 
@@ -99,14 +109,24 @@ This protocol treats AI infrastructure as a metabolic system rather than a stati
       |
       +--> Retain: summary / hash / trace / audit record
       |
+      +--> Repair: isolate / revise / reclassify / re-audit
+      |
       +--> Promote: send valuable records to core data center
 ```
 
-## v0.2 Scope
+## v0.3 Scope
 
-Version `0.2.0` extends the initial replica breathing core with a dedicated staging and exhalation layer.
+Version `0.3.0` extends the staging and exhalation layer with a dedicated **Replica Repair Loop**.
 
-v0.2 adds:
+v0.3 adds:
+
+| Schema                      | Purpose                                                                                  |
+| --------------------------- | ---------------------------------------------------------------------------------------- |
+| `repair-policy.schema.json` | Defines repair triggers, allowed repair actions, escalation rules, and safety boundaries |
+| `repair-loop.schema.json`   | Defines one complete repair loop from detection to final decision                        |
+| `repair-record.schema.json` | Records before/after repair state, issue type, repair result, and trace requirements     |
+
+v0.3 builds on the v0.2 staging and exhalation schemas:
 
 | Schema                          | Purpose                                                              |
 | ------------------------------- | -------------------------------------------------------------------- |
@@ -114,7 +134,7 @@ v0.2 adds:
 | `exhalation-record.schema.json` | Records discard, compression, quarantine, and promotion actions      |
 | `retention-rule.schema.json`    | Defines how long staged, compressed, or audited records are retained |
 
-v0.2 builds on the v0.1 core schemas:
+v0.3 also builds on the v0.1 core schemas:
 
 | Schema                                | Purpose                                                         |
 | ------------------------------------- | --------------------------------------------------------------- |
@@ -140,7 +160,7 @@ Examples:
 
 ### Breathing Cycle
 
-A complete processing loop in which replica agents receive data, stage it, filter it, compress it, audit it, and either discard, retain, quarantine, or promote it.
+A complete processing loop in which replica agents receive data, stage it, filter it, compress it, audit it, and either discard, retain, quarantine, repair, or promote it.
 
 A breathing cycle includes:
 
@@ -151,7 +171,8 @@ A breathing cycle includes:
 5. Audit
 6. Exhalation
 7. Retention
-8. Promotion
+8. Repair
+9. Promotion
 
 ### Staging Layer
 
@@ -166,6 +187,7 @@ Typical staging zones include:
 * `summary_cache`
 * `quarantine`
 * `discard_buffer`
+* `repair_buffer`
 
 ### Exhalation
 
@@ -183,7 +205,7 @@ Exhalation may mean:
 
 ### Retention Rule
 
-A retention rule defines how long a staged, compressed, quarantined, or audited record should remain available.
+A retention rule defines how long a staged, compressed, quarantined, repaired, or audited record should remain available.
 
 Retention actions may include:
 
@@ -192,6 +214,40 @@ Retention actions may include:
 * Keep summary only
 * Move to audit archive
 * Require human review
+
+### Repair Loop
+
+A repair loop defines how the system responds when a replica output fails validation, audit, promotion, or human review.
+
+A repair loop includes:
+
+1. Detection
+2. Isolation
+3. Repair attempt
+4. Re-audit
+5. Final decision
+
+Possible final decisions include:
+
+* Reinstate
+* Promote candidate
+* Keep quarantined
+* Discard
+* Human review
+
+### Repair Record
+
+A repair record captures the before-and-after state of a flawed record.
+
+It includes:
+
+* Issue type
+* Severity
+* Before-repair zone and summary
+* After-repair zone and summary
+* Repair action
+* Repair result
+* Trace and audit requirements
 
 ### Promotion
 
@@ -219,10 +275,13 @@ Minimum safety principles:
 * No direct core writes by default
 * No silent promotion to core memory
 * No silent deletion of high-value records
+* No repair loop that bypasses audit
+* No network escalation during repair
+* No repeated repair attempts without escalation
 * Human review for sensitive or permanent actions
-* Trace records for promotion decisions
+* Trace records for promotion and repair decisions
 * Audit records for high-value or high-risk outputs
-* Retention rules for temporary and staged records
+* Retention rules for temporary, staged, and repaired records
 
 ## Recommended Default Limits
 
@@ -234,6 +293,9 @@ direct_core_write_allowed: false
 core_promotion_requires_review: true
 raw_retention_days: 14
 compress_after_days: 7
+max_repair_attempts: 2
+quarantine_on_high_risk: true
+human_review_required_after_attempts: 2
 discard_low_value_data: true
 trace_required: true
 audit_required: true
@@ -252,14 +314,20 @@ ai-replica-breathing-datacenter-protocol/
 │   ├── promotion-policy.schema.json
 │   ├── staging-policy.schema.json
 │   ├── exhalation-record.schema.json
-│   └── retention-rule.schema.json
+│   ├── retention-rule.schema.json
+│   ├── repair-policy.schema.json
+│   ├── repair-loop.schema.json
+│   └── repair-record.schema.json
 ├── examples/
 │   ├── replica-agent.example.yaml
 │   ├── replica-breathing-cycle.example.yaml
 │   ├── promotion-policy.example.yaml
 │   ├── staging-policy.example.yaml
 │   ├── exhalation-record.example.yaml
-│   └── retention-rule.example.yaml
+│   ├── retention-rule.example.yaml
+│   ├── repair-policy.example.yaml
+│   ├── repair-loop.example.yaml
+│   └── repair-record.example.yaml
 ├── scripts/
 │   └── validate_examples.py
 └── .github/
@@ -365,6 +433,54 @@ It includes:
 * Audit requirement
 * Human review requirement
 
+### Repair Policy
+
+`schemas/repair-policy.schema.json`
+
+Defines the policy layer for repair operations.
+
+It includes:
+
+* Repair triggers
+* Maximum repair attempts
+* Allowed repair actions
+* Escalation rules
+* Safety boundaries
+
+### Repair Loop
+
+`schemas/repair-loop.schema.json`
+
+Defines one complete repair process.
+
+It includes:
+
+* Repair loop ID
+* Source cycle
+* Trigger
+* Detector
+* Isolation decision
+* Repair attempt
+* Re-audit
+* Final decision
+
+### Repair Record
+
+`schemas/repair-record.schema.json`
+
+Defines the before-and-after record of a repair operation.
+
+It includes:
+
+* Source issue
+* Severity
+* Before-repair state
+* After-repair state
+* Repair result
+* Trace requirement
+* Audit requirement
+* Human review requirement
+
 ## Validation
 
 Install dependencies:
@@ -394,6 +510,12 @@ Expected result:
 [ok] exhalation-record.example.yaml is valid
 [validate] Retention Rule
 [ok] retention-rule.example.yaml is valid
+[validate] Repair Policy
+[ok] repair-policy.example.yaml is valid
+[validate] Repair Loop
+[ok] repair-loop.example.yaml is valid
+[validate] Repair Record
+[ok] repair-record.example.yaml is valid
 ```
 
 ## Design Philosophy
@@ -404,7 +526,8 @@ The protocol is based on a simple idea:
 Do not send everything to the core.
 Do not keep everything forever.
 Do not let lightweight agents become unbounded.
-Let the replica layer breathe.
+Do not promote flawed outputs without repair.
+Let the replica layer breathe and self-correct.
 ```
 
 A replica breathing data center is not a storage dump.
@@ -416,7 +539,8 @@ Too much intake without exhalation creates data obesity.
 Too much deletion without audit creates memory loss.
 Too much centralization creates compute pressure.
 Too much retention without expiration creates silent overload.
-A breathing replica layer balances all four.
+Too much repair without escalation creates endless loops.
+A breathing replica layer balances all five.
 ```
 
 ## Version History
@@ -427,19 +551,25 @@ Defined the minimum protocol layer for replica agents, breathing cycles, and pro
 
 ### v0.2.0-candidate — Staging & Exhalation Layer
 
-Adds staging policies, exhalation records, and retention rules.
+Added staging policies, exhalation records, and retention rules.
 
-This version makes the replica data center capable of controlled temporary storage, structured release, and expiration-based memory management.
+This version made the replica data center capable of controlled temporary storage, structured release, and expiration-based memory management.
+
+### v0.3.0-candidate — Replica Repair Loop
+
+Adds repair policies, repair loops, and repair records.
+
+This version makes the replica data center capable of detecting flawed outputs, isolating them, repairing them, re-auditing them, and deciding whether to reinstate, promote, quarantine, discard, or escalate them for human review.
 
 ## Status
 
 Current version:
 
 ```text
-v0.2.0-candidate
+v0.3.0-candidate
 ```
 
-v0.2 defines the staging and exhalation layer for managing AI replica agents as a breathing data center.
+v0.3 defines the repair loop layer for managing AI replica agents as a breathing and self-correcting data center.
 
 The current scope covers:
 
@@ -449,6 +579,9 @@ The current scope covers:
 * Staging policy
 * Exhalation record
 * Retention rule
+* Repair policy
+* Repair loop
+* Repair record
 * Example validation
 * GitHub Actions validation
 
