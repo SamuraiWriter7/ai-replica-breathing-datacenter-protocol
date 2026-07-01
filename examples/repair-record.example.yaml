@@ -1,0 +1,30 @@
+schema_version: "0.3.0"
+repair_record_id: "repair-record-2026-07-01-001"
+created_at: "2026-07-01T00:00:00Z"
+repair_loop_id: "repair-loop-2026-07-01-001"
+
+source_issue:
+  issue_type: "low_quality_summary"
+  severity: "medium"
+  description: "The compressed summary lost the original breathing-cycle structure."
+
+before_repair:
+  zone: "summary_cache"
+  summary: "The record described an AI data center process."
+  risk_score: 0.28
+
+after_repair:
+  zone: "candidate_pool"
+  summary: "The record defines a replica breathing cycle: intake, staging, filtering, compression, audit, exhalation, and promotion."
+  risk_score: 0.18
+
+repair_result:
+  status: "repaired"
+  action_taken: "revise_summary"
+  requires_re_audit: true
+
+trace:
+  trace_required: true
+  audit_required: true
+  human_review_required: true
+  notes: "Repair preserved the original structure and reduced ambiguity before promotion."
