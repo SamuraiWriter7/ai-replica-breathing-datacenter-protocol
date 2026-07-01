@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/repair-record.schema.json",
+  "title": "Repair Record",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "repair_record_id",
+    "created_at",
+    "repair_loop_id",
+    "source_issue",
+    "before_repair",
+    "after_repair",
+    "repair_result",
+    "trace"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.3.0"
+    },
+    "repair_record_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "repair_loop_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "source_issue": {
+      "type": "object",
+      "required": [
+        "issue_type",
+        "severity",
+        "description"
+      ],
+      "properties": {
+        "issue_type": {
+          "type": "string",
+          "enum": [
+            "low_quality_summary",
+            "misclassified_record",
+            "high_risk_content",
+            "duplicate_conflict",
+            "stale_record",
+            "schema_mismatch",
+            "failed_promotion",
+            "contradiction"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "before_repair": {
+      "type": "object",
+      "required": [
+        "zone",
+        "summary",
+        "risk_score"
+      ],
+      "properties": {
+        "zone": {
+          "type": "string",
+          "enum": [
+            "shadow_staging",
+            "candidate_pool",
+            "summary_cache",
+            "quarantine",
+            "discard_buffer",
+            "core_datacenter",
+            "audit_archive"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "risk_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "after_repair": {
+      "type": "object",
+      "required": [
+        "zone",
+        "summary",
+        "risk_score"
+      ],
+      "properties": {
+        "zone": {
+          "type": "string",
+          "enum": [
+            "shadow_staging",
+            "candidate_pool",
+            "summary_cache",
+            "quarantine",
+            "discard_buffer",
+            "core_datacenter",
+            "audit_archive"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "risk_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "repair_result": {
+      "type": "object",
+      "required": [
+        "status",
+        "action_taken",
+        "requires_re_audit"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "repaired",
+            "partially_repaired",
+            "not_repaired",
+            "discarded",
+            "escalated"
+          ]
+        },
+        "action_taken": {
+          "type": "string",
+          "enum": [
+            "revise_summary",
+            "reclassify_zone",
+            "quarantine_record",
+            "discard_record",
+            "request_human_review",
+            "regenerate_output",
+            "preserve_trace_only"
+          ]
+        },
+        "requires_re_audit": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "trace": {
+      "type": "object",
+      "required": [
+        "trace_required",
+        "audit_required",
+        "human_review_required"
+      ],
+      "properties": {
+        "trace_required": {
+          "type": "boolean"
+        },
+        "audit_required": {
+          "type": "boolean"
+        },
+        "human_review_required": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
