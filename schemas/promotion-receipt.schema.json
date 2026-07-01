@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/promotion-receipt.schema.json",
+  "title": "Promotion Receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "created_at",
+    "source",
+    "destination",
+    "promotion_decision",
+    "retained_artifacts",
+    "efficiency_summary",
+    "human_review",
+    "trace"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.5.0"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "cycle_id",
+        "source_zone",
+        "source_replica"
+      ],
+      "properties": {
+        "cycle_id": {
+          "type": "string",
+          "minLength": 3
+        },
+        "coordination_id": {
+          "type": "string"
+        },
+        "source_zone": {
+          "type": "string",
+          "enum": [
+            "shadow_staging",
+            "candidate_pool",
+            "summary_cache",
+            "quarantine",
+            "repair_buffer",
+            "audit_archive"
+          ]
+        },
+        "source_replica": {
+          "type": "string",
+          "minLength": 3
+        }
+      },
+      "additionalProperties": false
+    },
+    "destination": {
+      "type": "object",
+      "required": [
+        "target",
+        "write_mode"
+      ],
+      "properties": {
+        "target": {
+          "type": "string",
+          "enum": [
+            "core_memory",
+            "core_datacenter",
+            "origin_registry",
+            "audit_archive",
+            "royalty_record"
+          ]
+        },
+        "write_mode": {
+          "type": "string",
+          "enum": [
+            "append_only",
+            "reviewed_write",
+            "human_approved_write"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "promotion_decision": {
+      "type": "object",
+      "required": [
+        "approved",
+        "decision_basis",
+        "reuse_score",
+        "origin_value",
+        "risk_score"
+      ],
+      "properties": {
+        "approved": {
+          "type": "boolean"
+        },
+        "decision_basis": {
+          "type": "string",
+          "enum": [
+            "policy_threshold",
+            "auditor_approval",
+            "human_review",
+            "repair_then_approval",
+            "coordination_consensus"
+          ]
+        },
+        "reuse_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "origin_value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "risk_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "retained_artifacts": {
+      "type": "object",
+      "required": [
+        "raw_data_retained",
+        "summary_retained",
+        "hash_retained",
+        "trace_retained",
+        "audit_retained"
+      ],
+      "properties": {
+        "raw_data_retained": {
+          "type": "boolean"
+        },
+        "summary_retained": {
+          "type": "boolean"
+        },
+        "hash_retained": {
+          "type": "boolean"
+        },
+        "trace_retained": {
+          "type": "boolean"
+        },
+        "audit_retained": {
+          "type": "boolean"
+        },
+        "content_hash": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "efficiency_summary": {
+      "type": "object",
+      "required": [
+        "core_model_avoided_before_promotion",
+        "compressed_before_promotion",
+        "discarded_low_value_records",
+        "estimated_savings_ratio"
+      ],
+      "properties": {
+        "core_model_avoided_before_promotion": {
+          "type": "boolean"
+        },
+        "compressed_before_promotion": {
+          "type": "boolean"
+        },
+        "discarded_low_value_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "estimated_savings_ratio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "human_review": {
+      "type": "object",
+      "required": [
+        "required",
+        "status"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_required",
+            "pending",
+            "approved",
+            "rejected"
+          ]
+        },
+        "reviewer": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "trace": {
+      "type": "object",
+      "required": [
+        "trace_required",
+        "audit_required",
+        "receipt_required"
+      ],
+      "properties": {
+        "trace_required": {
+          "type": "boolean"
+        },
+        "audit_required": {
+          "type": "boolean"
+        },
+        "receipt_required": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
