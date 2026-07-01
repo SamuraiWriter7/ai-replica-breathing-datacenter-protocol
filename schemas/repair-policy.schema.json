@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/repair-policy.schema.json",
+  "title": "Repair Policy",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "policy_id",
+    "repair_triggers",
+    "max_repair_attempts",
+    "allowed_repair_actions",
+    "escalation",
+    "safety_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.3.0"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "repair_triggers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "audit_failed",
+          "risk_score_exceeded",
+          "promotion_rejected",
+          "schema_validation_failed",
+          "contradiction_detected",
+          "duplicate_conflict",
+          "stale_record",
+          "human_flagged"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "max_repair_attempts": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "allowed_repair_actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "revise_summary",
+          "reclassify_zone",
+          "quarantine_record",
+          "discard_record",
+          "request_human_review",
+          "regenerate_output",
+          "preserve_trace_only"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "escalation": {
+      "type": "object",
+      "required": [
+        "human_review_required_after_attempts",
+        "quarantine_on_high_risk",
+        "discard_on_repeated_failure"
+      ],
+      "properties": {
+        "human_review_required_after_attempts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "quarantine_on_high_risk": {
+          "type": "boolean"
+        },
+        "discard_on_repeated_failure": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "safety_boundary": {
+      "type": "object",
+      "required": [
+        "no_direct_core_write",
+        "no_network_escalation",
+        "trace_required",
+        "audit_required"
+      ],
+      "properties": {
+        "no_direct_core_write": {
+          "type": "boolean"
+        },
+        "no_network_escalation": {
+          "type": "boolean"
+        },
+        "trace_required": {
+          "type": "boolean"
+        },
+        "audit_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
