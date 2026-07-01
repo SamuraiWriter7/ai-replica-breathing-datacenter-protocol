@@ -1,0 +1,17 @@
+schema_version: "0.1.0"
+replica_id: "replica-auditor-001"
+role: "auditor"
+model: "local/small-auditor-model"
+description: "A bounded replica agent responsible for auditing staged outputs before promotion."
+permissions:
+  network_access: false
+  shell_access: false
+  file_read: "staging_only"
+  file_write: "limited"
+  core_promotion: "requires_human_review"
+memory_scope:
+  namespace: "auditor-memory"
+  retention_days: 14
+trace_required: true
+audit_required: true
+human_review_required: true
