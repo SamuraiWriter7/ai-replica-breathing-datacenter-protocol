@@ -82,6 +82,11 @@ VALIDATION_TARGETS = [
         ROOT / "schemas" / "promotion-receipt.schema.json",
         ROOT / "examples" / "promotion-receipt.example.yaml",
     ),
+        (
+        "Multi-Wing Breathing Layer",
+        ROOT / "schemas" / "multi-wing-breathing-layer.schema.json",
+        ROOT / "examples" / "multi-wing-breathing-layer.example.yaml",
+    ),
 ]
 
 def load_json(path: Path):
