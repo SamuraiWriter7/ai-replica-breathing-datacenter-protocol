@@ -2,6 +2,137 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0-candidate] - 2026-07-01
+
+### Added
+
+* Added `docs/breathing-layer.md`.
+* Added `docs/multi-wing-integration.md`.
+* Added `multi-wing-breathing-layer.schema.json`.
+* Added `multi-wing-breathing-layer.example.yaml`.
+* Updated `scripts/validate_examples.py` to validate the v0.6 example.
+* Updated README with v0.6 Multi-Wing Breathing Layer integration documentation.
+
+### Defined
+
+* Breathing Layer
+* Multi-Wing Breathing Layer
+* Multi-Wing Integration Mode
+* Enabled Wings
+* Breathing Function Mapping
+* Required Protocol Layers
+* Core Boundary
+* Trace Requirements
+* Multi-Wing Safety Boundary
+* Finder Wing to Intake Mapping
+* Analyst Wing to Filtering Mapping
+* Compressor Wing to Compression Mapping
+* Auditor Wing to Audit Mapping
+* Repair Wing to Repair Loop Mapping
+* Coordinator Wing to Handoff and Synchronization Mapping
+* Boundary Wing to Promotion Boundary Mapping
+* Human Gate to Human Review Mapping
+* Trace Core to Metrics and Receipts Mapping
+
+### Validation
+
+* Confirmed that the v0.6 example passes schema validation.
+* Confirmed GitHub Actions validation passes successfully.
+
+Validated v0.6 example:
+
+* `multi-wing-breathing-layer.example.yaml`
+
+Full validation set:
+
+* `replica-agent.example.yaml`
+* `replica-breathing-cycle.example.yaml`
+* `promotion-policy.example.yaml`
+* `staging-policy.example.yaml`
+* `exhalation-record.example.yaml`
+* `retention-rule.example.yaml`
+* `repair-policy.example.yaml`
+* `repair-loop.example.yaml`
+* `repair-record.example.yaml`
+* `coordination-policy.example.yaml`
+* `replica-handoff.example.yaml`
+* `coordination-record.example.yaml`
+* `energy-budget-policy.example.yaml`
+* `execution-metrics-record.example.yaml`
+* `promotion-receipt.example.yaml`
+* `multi-wing-breathing-layer.example.yaml`
+
+### Philosophy
+
+v0.6 extends the protocol by defining its position inside a Multi-Wing AI infrastructure.
+
+v0.1 defined the basic breathing core.
+
+v0.2 defined staging and exhalation.
+
+v0.3 defined the repair immune layer.
+
+v0.4 defined the coordination layer.
+
+v0.5 defined the measurement and receipt layer.
+
+v0.6 defines the integration layer:
+
+* How the protocol acts as the Breathing Layer of a Multi-Wing system
+* How intake maps to Finder Wing
+* How filtering maps to Analyst Wing
+* How compression maps to Compressor Wing
+* How audit maps to Auditor Wing
+* How repair maps to Repair Wing
+* How coordination maps to Coordinator Wing
+* How promotion control maps to Boundary Wing
+* How approval maps to Human Gate
+* How metrics and receipts map to Trace Core
+
+The goal is to make the AI Replica Breathing Data Center Protocol usable not only as a standalone protocol, but also as a structural layer inside a broader Multi-Wing AI operating architecture.
+
+### Core Flow
+
+```text
+Finder -> Analyst -> Compressor -> Auditor -> Repair -> Coordinator -> Boundary -> Human Gate -> Trace Core -> Core Data Center
+```
+
+The Multi-Wing integration layer completes the first protocol arc:
+
+```text
+Inhale -> Stage -> Filter -> Compress -> Audit -> Exhale -> Retain or Promote
+                                      |
+                                      v
+                              Detect -> Isolate -> Repair -> Re-audit
+                                      |
+                                      v
+                              Assign -> Handoff -> Synchronize -> Resolve
+                                      |
+                                      v
+                              Measure -> Budget -> Receipt -> Promote
+                                      |
+                                      v
+                              Multi-Wing Breathing Layer
+```
+
+### Notes
+
+This release establishes the Multi-Wing Breathing Layer integration for AI replica breathing infrastructure.
+
+The protocol can now describe not only intake, staging, exhalation, retention, repair, coordination, metrics, and promotion receipts, but also its structural role inside a Multi-Wing AI system.
+
+This release is intended as the closing point of the first arc of the repository.
+
+Future work may continue in separate repositories or extension layers, such as:
+
+* Runtime budget enforcement profiles
+* Local-first execution profiles
+* Core memory promotion lifecycle
+* External audit export formats
+* Multi-Wing orchestration receipts
+* Human Gate policy registry
+* Breathing Layer runtime adapters
+
 ## [0.5.0-candidate] - 2026-07-01
 
 ### Added
@@ -501,5 +632,4 @@ Future versions may extend the protocol with:
 * Multi-replica coordination
 * Energy-saving metrics
 * Core memory promotion receipts
-
 
