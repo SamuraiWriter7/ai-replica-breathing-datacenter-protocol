@@ -1,0 +1,30 @@
+schema_version: "0.4.0"
+policy_id: "default-coordination-policy-001"
+coordination_mode: "orchestrated"
+max_active_replicas: 3
+
+role_assignment:
+  assignment_mode: "orchestrator_assigned"
+  allowed_roles:
+    - "intake"
+    - "classifier"
+    - "compressor"
+    - "auditor"
+    - "repair"
+    - "orchestrator"
+
+handoff_rules:
+  handoff_required: true
+  handoff_receipt_required: true
+  handoff_timeout_seconds: 300
+
+conflict_resolution:
+  enabled: true
+  default_strategy: "auditor_decides"
+  human_review_on_unresolved_conflict: true
+
+safety_boundary:
+  no_unbounded_parallelism: true
+  no_direct_core_write: true
+  trace_required: true
+  audit_required: true
