@@ -1,0 +1,42 @@
+schema_version: "0.1.0"
+cycle_id: "breath-cycle-2026-07-01-001"
+created_at: "2026-07-01T00:00:00Z"
+origin: "user-session-local-replica-test"
+mode: "local_replica_cluster"
+
+intake:
+  source_type: "user_input"
+  default_location: "shadow_staging"
+  raw_retention_days: 14
+  intake_limit_tokens: 8000
+
+staging:
+  location: "shadow_staging"
+  temporary: true
+  deduplication_required: true
+
+filtering:
+  reuse_score: 0.82
+  origin_value: 0.76
+  risk_score: 0.18
+  decision: "promote_candidate"
+
+compression:
+  enabled: true
+  method: "summary_plus_hash"
+  summary: "The staged record describes a breathing structure for AI replica data centers."
+
+audit:
+  trace_required: true
+  auditor_replica: "replica-auditor-001"
+  review_status: "pending_human_review"
+  notes: "Candidate is structurally valuable and suitable for core promotion after review."
+
+exhalation:
+  action: "promote_to_core"
+  reason: "High reuse value, low risk, and strong origin structure."
+
+promotion:
+  eligible: true
+  destination: "core_datacenter"
+  human_review_required: true
