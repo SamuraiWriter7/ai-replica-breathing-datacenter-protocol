@@ -1,0 +1,28 @@
+schema_version: "0.5.0"
+policy_id: "default-energy-budget-policy-001"
+budget_scope: "coordination_task"
+max_active_replicas: 3
+
+token_budget:
+  max_input_tokens: 12000
+  max_output_tokens: 4000
+  max_total_tokens: 16000
+
+compute_budget:
+  max_runtime_seconds: 300
+  max_repair_attempts: 2
+  allow_core_model_activation: false
+
+energy_tracking:
+  enabled: true
+  measurement_mode: "estimated"
+  report_estimated_savings: true
+
+fallback_action: "compress_and_stop"
+
+safety_boundary:
+  no_unbounded_runtime: true
+  no_unbounded_token_growth: true
+  no_core_activation_without_policy: true
+  trace_required: true
+  audit_required: true
