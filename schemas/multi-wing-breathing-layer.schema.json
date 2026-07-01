@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/multi-wing-breathing-layer.schema.json",
+  "title": "Multi-Wing Breathing Layer",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "layer_id",
+    "multi_wing_system",
+    "integration_mode",
+    "enabled_wings",
+    "breathing_mapping",
+    "required_protocol_layers",
+    "core_boundary",
+    "trace_requirements",
+    "safety_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.6.0"
+    },
+    "layer_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "multi_wing_system": {
+      "type": "string",
+      "minLength": 3
+    },
+    "integration_mode": {
+      "type": "string",
+      "enum": [
+        "documentation_only",
+        "schema_profile",
+        "runtime_profile",
+        "full_integration"
+      ]
+    },
+    "enabled_wings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "finder",
+          "analyst",
+          "compressor",
+          "auditor",
+          "repair",
+          "coordinator",
+          "boundary",
+          "human_gate",
+          "trace_core"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "breathing_mapping": {
+      "type": "object",
+      "required": [
+        "intake",
+        "filtering",
+        "compression",
+        "audit",
+        "repair",
+        "coordination",
+        "promotion_boundary",
+        "human_review",
+        "receipt"
+      ],
+      "properties": {
+        "intake": {
+          "type": "string",
+          "const": "finder"
+        },
+        "filtering": {
+          "type": "string",
+          "const": "analyst"
+        },
+        "compression": {
+          "type": "string",
+          "const": "compressor"
+        },
+        "audit": {
+          "type": "string",
+          "const": "auditor"
+        },
+        "repair": {
+          "type": "string",
+          "const": "repair"
+        },
+        "coordination": {
+          "type": "string",
+          "const": "coordinator"
+        },
+        "promotion_boundary": {
+          "type": "string",
+          "const": "boundary"
+        },
+        "human_review": {
+          "type": "string",
+          "const": "human_gate"
+        },
+        "receipt": {
+          "type": "string",
+          "const": "trace_core"
+        }
+      },
+      "additionalProperties": false
+    },
+    "required_protocol_layers": {
+      "type": "object",
+      "required": [
+        "breathing_cycle",
+        "staging_exhalation",
+        "repair_loop",
+        "coordination",
+        "energy_budget",
+        "promotion_receipt"
+      ],
+      "properties": {
+        "breathing_cycle": {
+          "type": "boolean"
+        },
+        "staging_exhalation": {
+          "type": "boolean"
+        },
+        "repair_loop": {
+          "type": "boolean"
+        },
+        "coordination": {
+          "type": "boolean"
+        },
+        "energy_budget": {
+          "type": "boolean"
+        },
+        "promotion_receipt": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "core_boundary": {
+      "type": "object",
+      "required": [
+        "direct_core_write_allowed",
+        "promotion_receipt_required",
+        "human_review_for_core_write",
+        "allowed_core_destinations"
+      ],
+      "properties": {
+        "direct_core_write_allowed": {
+          "type": "boolean"
+        },
+        "promotion_receipt_required": {
+          "type": "boolean"
+        },
+        "human_review_for_core_write": {
+          "type": "boolean"
+        },
+        "allowed_core_destinations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "core_memory",
+              "core_datacenter",
+              "origin_registry",
+              "audit_archive",
+              "royalty_record"
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "trace_requirements": {
+      "type": "object",
+      "required": [
+        "trace_required",
+        "audit_required",
+        "handoff_receipts_required",
+        "repair_records_required",
+        "execution_metrics_required",
+        "promotion_receipts_required"
+      ],
+      "properties": {
+        "trace_required": {
+          "type": "boolean"
+        },
+        "audit_required": {
+          "type": "boolean"
+        },
+        "handoff_receipts_required": {
+          "type": "boolean"
+        },
+        "repair_records_required": {
+          "type": "boolean"
+        },
+        "execution_metrics_required": {
+          "type": "boolean"
+        },
+        "promotion_receipts_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "safety_boundary": {
+      "type": "object",
+      "required": [
+        "no_unlimited_self_replication",
+        "no_unbounded_parallelism",
+        "no_unbounded_runtime",
+        "no_unbounded_token_growth",
+        "no_core_activation_without_policy",
+        "human_gate_available"
+      ],
+      "properties": {
+        "no_unlimited_self_replication": {
+          "type": "boolean"
+        },
+        "no_unbounded_parallelism": {
+          "type": "boolean"
+        },
+        "no_unbounded_runtime": {
+          "type": "boolean"
+        },
+        "no_unbounded_token_growth": {
+          "type": "boolean"
+        },
+        "no_core_activation_without_policy": {
+          "type": "boolean"
+        },
+        "human_gate_available": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
