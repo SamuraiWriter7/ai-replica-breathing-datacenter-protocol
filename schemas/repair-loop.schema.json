@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/repair-loop.schema.json",
+  "title": "Repair Loop",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "repair_loop_id",
+    "created_at",
+    "source_cycle_id",
+    "trigger",
+    "detected_by",
+    "isolation",
+    "repair_attempt",
+    "re_audit",
+    "final_decision"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.3.0"
+    },
+    "repair_loop_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_cycle_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "source_record_id": {
+      "type": "string"
+    },
+    "trigger": {
+      "type": "string",
+      "enum": [
+        "audit_failed",
+        "risk_score_exceeded",
+        "promotion_rejected",
+        "schema_validation_failed",
+        "contradiction_detected",
+        "duplicate_conflict",
+        "stale_record",
+        "human_flagged"
+      ]
+    },
+    "detected_by": {
+      "type": "object",
+      "required": [
+        "replica_id",
+        "role"
+      ],
+      "properties": {
+        "replica_id": {
+          "type": "string",
+          "minLength": 3
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "auditor",
+            "classifier",
+            "compressor",
+            "repair",
+            "orchestrator",
+            "human"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "isolation": {
+      "type": "object",
+      "required": [
+        "isolated",
+        "isolation_zone",
+        "reason"
+      ],
+      "properties": {
+        "isolated": {
+          "type": "boolean"
+        },
+        "isolation_zone": {
+          "type": "string",
+          "enum": [
+            "quarantine",
+            "repair_buffer",
+            "discard_buffer",
+            "candidate_pool",
+            "none"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "repair_attempt": {
+      "type": "object",
+      "required": [
+        "attempt_number",
+        "repair_replica",
+        "action",
+        "result"
+      ],
+      "properties": {
+        "attempt_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "repair_replica": {
+          "type": "string",
+          "minLength": 3
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "revise_summary",
+            "reclassify_zone",
+            "quarantine_record",
+            "discard_record",
+            "request_human_review",
+            "regenerate_output",
+            "preserve_trace_only"
+          ]
+        },
+        "result": {
+          "type": "string",
+          "enum": [
+            "repaired",
+            "partially_repaired",
+            "not_repaired",
+            "escalated",
+            "discarded"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "re_audit": {
+      "type": "object",
+      "required": [
+        "required",
+        "status",
+        "auditor_replica"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_required",
+            "pending",
+            "passed",
+            "failed"
+          ]
+        },
+        "auditor_replica": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "final_decision": {
+      "type": "object",
+      "required": [
+        "status",
+        "destination",
+        "human_review_required"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "reinstate",
+            "promote_candidate",
+            "keep_quarantined",
+            "discard",
+            "human_review"
+          ]
+        },
+        "destination": {
+          "type": "string",
+          "enum": [
+            "shadow_staging",
+            "candidate_pool",
+            "summary_cache",
+            "quarantine",
+            "discard_buffer",
+            "core_datacenter",
+            "audit_archive",
+            "none"
+          ]
+        },
+        "human_review_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
