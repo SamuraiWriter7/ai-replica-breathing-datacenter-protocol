@@ -1,0 +1,48 @@
+schema_version: "0.2.0"
+policy_id: "default-staging-policy-001"
+default_zone: "shadow_staging"
+
+zones:
+  - zone_id: "shadow_staging"
+    purpose: "Temporary intake zone for raw or uncertain data before filtering."
+    temporary: true
+    max_retention_days: 14
+    requires_audit: false
+
+  - zone_id: "candidate_pool"
+    purpose: "Holding zone for records that may be promoted to the core data center."
+    temporary: true
+    max_retention_days: 30
+    requires_audit: true
+
+  - zone_id: "summary_cache"
+    purpose: "Compressed memory zone for summaries and hashes after raw data is reduced."
+    temporary: true
+    max_retention_days: 60
+    requires_audit: false
+
+  - zone_id: "quarantine"
+    purpose: "Isolation zone for risky, uncertain, or sensitive records."
+    temporary: true
+    max_retention_days: 7
+    requires_audit: true
+
+deduplication:
+  enabled: true
+  method: "hash_and_semantic_similarity"
+  similarity_threshold: 0.92
+
+quarantine:
+  enabled: true
+  risk_threshold: 0.7
+  human_review_required: true
+
+raw_input_handling:
+  store_raw_input: true
+  raw_retention_days: 14
+  compress_after_days: 7
+
+promotion_boundary:
+  direct_core_write_allowed: false
+  requires_promotion_policy: true
+  requires_trace_record: true
