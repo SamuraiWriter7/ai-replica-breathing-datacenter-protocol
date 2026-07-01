@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/replica-breathing-cycle.schema.json",
+  "title": "Replica Breathing Cycle",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "cycle_id",
+    "created_at",
+    "origin",
+    "mode",
+    "intake",
+    "staging",
+    "filtering",
+    "compression",
+    "audit",
+    "exhalation",
+    "promotion"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "cycle_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "origin": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "local_replica_cluster",
+        "shadow_cache",
+        "edge_twin",
+        "hybrid"
+      ]
+    },
+    "intake": {
+      "type": "object",
+      "required": [
+        "source_type",
+        "default_location",
+        "raw_retention_days"
+      ],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "user_input",
+            "search_result",
+            "agent_output",
+            "system_log",
+            "external_file",
+            "sensor_data"
+          ]
+        },
+        "default_location": {
+          "type": "string",
+          "enum": [
+            "shadow_staging",
+            "quarantine",
+            "candidate_pool"
+          ]
+        },
+        "raw_retention_days": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "intake_limit_tokens": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "staging": {
+      "type": "object",
+      "required": [
+        "location",
+        "temporary",
+        "deduplication_required"
+      ],
+      "properties": {
+        "location": {
+          "type": "string",
+          "enum": [
+            "shadow_staging",
+            "quarantine",
+            "candidate_pool",
+            "summary_cache"
+          ]
+        },
+        "temporary": {
+          "type": "boolean"
+        },
+        "deduplication_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "filtering": {
+      "type": "object",
+      "required": [
+        "reuse_score",
+        "origin_value",
+        "risk_score",
+        "decision"
+      ],
+      "properties": {
+        "reuse_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "origin_value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "risk_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "discard",
+            "compress",
+            "quarantine",
+            "promote_candidate"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "compression": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "method"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "none",
+            "summary",
+            "summary_plus_hash",
+            "embedding_only",
+            "structured_record"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "audit": {
+      "type": "object",
+      "required": [
+        "trace_required",
+        "auditor_replica",
+        "review_status"
+      ],
+      "properties": {
+        "trace_required": {
+          "type": "boolean"
+        },
+        "auditor_replica": {
+          "type": "string"
+        },
+        "review_status": {
+          "type": "string",
+          "enum": [
+            "not_reviewed",
+            "pending_human_review",
+            "approved",
+            "rejected"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "exhalation": {
+      "type": "object",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "discard",
+            "expire",
+            "quarantine",
+            "compress_and_keep",
+            "promote_to_core"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "promotion": {
+      "type": "object",
+      "required": [
+        "eligible",
+        "destination",
+        "human_review_required"
+      ],
+      "properties": {
+        "eligible": {
+          "type": "boolean"
+        },
+        "destination": {
+          "type": "string",
+          "enum": [
+            "none",
+            "core_memory",
+            "core_datacenter",
+            "origin_registry",
+            "audit_archive",
+            "royalty_record"
+          ]
+        },
+        "human_review_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
