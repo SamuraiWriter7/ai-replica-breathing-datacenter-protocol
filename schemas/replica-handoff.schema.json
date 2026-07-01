@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/replica-handoff.schema.json",
+  "title": "Replica Handoff",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "handoff_id",
+    "created_at",
+    "source_replica",
+    "target_replica",
+    "handoff_type",
+    "payload_summary",
+    "state_transfer",
+    "boundary",
+    "receipt"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.4.0"
+    },
+    "handoff_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_replica": {
+      "type": "object",
+      "required": [
+        "replica_id",
+        "role"
+      ],
+      "properties": {
+        "replica_id": {
+          "type": "string",
+          "minLength": 3
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "intake",
+            "classifier",
+            "compressor",
+            "auditor",
+            "generator",
+            "repair",
+            "orchestrator",
+            "reviewer"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "target_replica": {
+      "type": "object",
+      "required": [
+        "replica_id",
+        "role"
+      ],
+      "properties": {
+        "replica_id": {
+          "type": "string",
+          "minLength": 3
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "intake",
+            "classifier",
+            "compressor",
+            "auditor",
+            "generator",
+            "repair",
+            "orchestrator",
+            "reviewer"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "handoff_type": {
+      "type": "string",
+      "enum": [
+        "intake_to_classifier",
+        "classifier_to_compressor",
+        "compressor_to_auditor",
+        "auditor_to_repair",
+        "repair_to_auditor",
+        "auditor_to_promotion",
+        "orchestrator_assignment",
+        "human_review_request"
+      ]
+    },
+    "payload_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state_transfer": {
+      "type": "object",
+      "required": [
+        "transfers_raw_data",
+        "transfers_summary",
+        "transfers_trace",
+        "transfers_audit_status"
+      ],
+      "properties": {
+        "transfers_raw_data": {
+          "type": "boolean"
+        },
+        "transfers_summary": {
+          "type": "boolean"
+        },
+        "transfers_trace": {
+          "type": "boolean"
+        },
+        "transfers_audit_status": {
+          "type": "boolean"
+        },
+        "state_hash": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "boundary": {
+      "type": "object",
+      "required": [
+        "target_may_modify_payload",
+        "target_may_promote_to_core",
+        "human_review_required"
+      ],
+      "properties": {
+        "target_may_modify_payload": {
+          "type": "boolean"
+        },
+        "target_may_promote_to_core": {
+          "type": "boolean"
+        },
+        "human_review_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "receipt": {
+      "type": "object",
+      "required": [
+        "receipt_required",
+        "acknowledged",
+        "status"
+      ],
+      "properties": {
+        "receipt_required": {
+          "type": "boolean"
+        },
+        "acknowledged": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "accepted",
+            "rejected",
+            "expired"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
