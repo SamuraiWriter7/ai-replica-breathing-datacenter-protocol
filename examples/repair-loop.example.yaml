@@ -1,0 +1,33 @@
+schema_version: "0.3.0"
+repair_loop_id: "repair-loop-2026-07-01-001"
+created_at: "2026-07-01T00:00:00Z"
+source_cycle_id: "breath-cycle-2026-07-01-001"
+source_record_id: "staged-record-001"
+trigger: "audit_failed"
+
+detected_by:
+  replica_id: "replica-auditor-001"
+  role: "auditor"
+
+isolation:
+  isolated: true
+  isolation_zone: "repair_buffer"
+  reason: "Audit failed due to incomplete compression summary."
+
+repair_attempt:
+  attempt_number: 1
+  repair_replica: "replica-repair-001"
+  action: "revise_summary"
+  result: "repaired"
+  notes: "Summary was revised to preserve origin structure and reduce ambiguity."
+
+re_audit:
+  required: true
+  status: "passed"
+  auditor_replica: "replica-auditor-001"
+  notes: "Repaired record passed audit after summary revision."
+
+final_decision:
+  status: "promote_candidate"
+  destination: "candidate_pool"
+  human_review_required: true
