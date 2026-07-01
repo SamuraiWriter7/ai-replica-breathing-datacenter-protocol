@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/coordination-record.schema.json",
+  "title": "Coordination Record",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "coordination_id",
+    "created_at",
+    "coordination_mode",
+    "participants",
+    "task",
+    "coordination_steps",
+    "conflict_status",
+    "final_state",
+    "trace"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.4.0"
+    },
+    "coordination_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "coordination_mode": {
+      "type": "string",
+      "enum": [
+        "sequential",
+        "parallel",
+        "supervised_parallel",
+        "orchestrated"
+      ]
+    },
+    "participants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "replica_id",
+          "role"
+        ],
+        "properties": {
+          "replica_id": {
+            "type": "string",
+            "minLength": 3
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "intake",
+              "classifier",
+              "compressor",
+              "auditor",
+              "generator",
+              "repair",
+              "orchestrator",
+              "reviewer"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "task": {
+      "type": "object",
+      "required": [
+        "task_id",
+        "task_type",
+        "description"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "minLength": 3
+        },
+        "task_type": {
+          "type": "string",
+          "enum": [
+            "breathing_cycle",
+            "staging",
+            "compression",
+            "audit",
+            "repair",
+            "promotion_review",
+            "coordination_test"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "coordination_steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "step_id",
+          "replica_id",
+          "action",
+          "status"
+        ],
+        "properties": {
+          "step_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica_id": {
+            "type": "string",
+            "minLength": 3
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "intake",
+              "classify",
+              "compress",
+              "audit",
+              "repair",
+              "handoff",
+              "resolve_conflict",
+              "request_human_review",
+              "prepare_promotion"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "completed",
+              "failed",
+              "skipped"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "conflict_status": {
+      "type": "object",
+      "required": [
+        "conflict_detected",
+        "resolution_strategy",
+        "resolved"
+      ],
+      "properties": {
+        "conflict_detected": {
+          "type": "boolean"
+        },
+        "resolution_strategy": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auditor_decides",
+            "orchestrator_decides",
+            "majority_vote",
+            "highest_confidence",
+            "human_review"
+          ]
+        },
+        "resolved": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "final_state": {
+      "type": "object",
+      "required": [
+        "status",
+        "destination",
+        "promotion_candidate"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "completed_with_repair",
+            "quarantined",
+            "discarded",
+            "pending_human_review",
+            "failed"
+          ]
+        },
+        "destination": {
+          "type": "string",
+          "enum": [
+            "shadow_staging",
+            "candidate_pool",
+            "summary_cache",
+            "quarantine",
+            "discard_buffer",
+            "core_datacenter",
+            "audit_archive",
+            "none"
+          ]
+        },
+        "promotion_candidate": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "trace": {
+      "type": "object",
+      "required": [
+        "trace_required",
+        "audit_required",
+        "handoff_receipts_required"
+      ],
+      "properties": {
+        "trace_required": {
+          "type": "boolean"
+        },
+        "audit_required": {
+          "type": "boolean"
+        },
+        "handoff_receipts_required": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
