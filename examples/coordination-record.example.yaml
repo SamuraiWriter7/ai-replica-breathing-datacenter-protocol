@@ -1,0 +1,69 @@
+schema_version: "0.4.0"
+coordination_id: "coordination-2026-07-01-001"
+created_at: "2026-07-01T00:00:00Z"
+coordination_mode: "orchestrated"
+
+participants:
+  - replica_id: "replica-intake-001"
+    role: "intake"
+  - replica_id: "replica-classifier-001"
+    role: "classifier"
+  - replica_id: "replica-compressor-001"
+    role: "compressor"
+  - replica_id: "replica-auditor-001"
+    role: "auditor"
+  - replica_id: "replica-orchestrator-001"
+    role: "orchestrator"
+
+task:
+  task_id: "task-breath-cycle-001"
+  task_type: "breathing_cycle"
+  description: "Coordinate a full replica breathing cycle from intake to promotion candidate review."
+
+coordination_steps:
+  - step_id: "step-001"
+    replica_id: "replica-intake-001"
+    action: "intake"
+    status: "completed"
+    notes: "Raw input captured and placed in shadow staging."
+
+  - step_id: "step-002"
+    replica_id: "replica-classifier-001"
+    action: "classify"
+    status: "completed"
+    notes: "Record classified as a promotion candidate."
+
+  - step_id: "step-003"
+    replica_id: "replica-compressor-001"
+    action: "compress"
+    status: "completed"
+    notes: "Summary and hash produced."
+
+  - step_id: "step-004"
+    replica_id: "replica-auditor-001"
+    action: "audit"
+    status: "completed"
+    notes: "Audit passed with low risk."
+
+  - step_id: "step-005"
+    replica_id: "replica-orchestrator-001"
+    action: "prepare_promotion"
+    status: "completed"
+    notes: "Prepared for human-reviewed promotion."
+
+conflict_status:
+  conflict_detected: false
+  resolution_strategy: "none"
+  resolved: true
+  notes: "No coordination conflict detected."
+
+final_state:
+  status: "completed"
+  destination: "candidate_pool"
+  promotion_candidate: true
+
+trace:
+  trace_required: true
+  audit_required: true
+  handoff_receipts_required: true
+  notes: "All major coordination steps were traceable."
