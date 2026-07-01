@@ -1,0 +1,31 @@
+schema_version: "0.3.0"
+policy_id: "default-repair-policy-001"
+
+repair_triggers:
+  - "audit_failed"
+  - "risk_score_exceeded"
+  - "promotion_rejected"
+  - "schema_validation_failed"
+  - "contradiction_detected"
+  - "human_flagged"
+
+max_repair_attempts: 2
+
+allowed_repair_actions:
+  - "revise_summary"
+  - "reclassify_zone"
+  - "quarantine_record"
+  - "discard_record"
+  - "request_human_review"
+  - "preserve_trace_only"
+
+escalation:
+  human_review_required_after_attempts: 2
+  quarantine_on_high_risk: true
+  discard_on_repeated_failure: true
+
+safety_boundary:
+  no_direct_core_write: true
+  no_network_escalation: true
+  trace_required: true
+  audit_required: true
