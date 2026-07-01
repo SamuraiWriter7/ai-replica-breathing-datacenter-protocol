@@ -2,6 +2,139 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0-candidate] - 2026-07-01
+
+### Added
+
+* Added `energy-budget-policy.schema.json`.
+* Added `execution-metrics-record.schema.json`.
+* Added `promotion-receipt.schema.json`.
+* Added `energy-budget-policy.example.yaml`.
+* Added `execution-metrics-record.example.yaml`.
+* Added `promotion-receipt.example.yaml`.
+* Updated `scripts/validate_examples.py` to validate v0.5 examples.
+* Updated README with v0.5 energy budget and promotion receipt layer documentation.
+
+### Defined
+
+* Energy Budget Policy
+* Budget Scope
+* Token Budget
+* Compute Budget
+* Runtime Limit
+* Core Model Activation Policy
+* Energy Tracking Mode
+* Execution Metrics Record
+* Token Usage Record
+* Runtime Record
+* Energy Estimate
+* Core Model Avoidance
+* Estimated Savings Ratio
+* Promotion Receipt
+* Promotion Decision Basis
+* Retained Artifacts
+* Efficiency Summary
+* Human Review Status
+* Receipt Trace Requirement
+
+### Validation
+
+* Confirmed that all v0.5 examples pass schema validation.
+* Confirmed GitHub Actions validation passes successfully.
+
+Validated v0.5 examples:
+
+* `energy-budget-policy.example.yaml`
+* `execution-metrics-record.example.yaml`
+* `promotion-receipt.example.yaml`
+
+Full validation set:
+
+* `replica-agent.example.yaml`
+* `replica-breathing-cycle.example.yaml`
+* `promotion-policy.example.yaml`
+* `staging-policy.example.yaml`
+* `exhalation-record.example.yaml`
+* `retention-rule.example.yaml`
+* `repair-policy.example.yaml`
+* `repair-loop.example.yaml`
+* `repair-record.example.yaml`
+* `coordination-policy.example.yaml`
+* `replica-handoff.example.yaml`
+* `coordination-record.example.yaml`
+* `energy-budget-policy.example.yaml`
+* `execution-metrics-record.example.yaml`
+* `promotion-receipt.example.yaml`
+
+### Philosophy
+
+v0.5 extends the breathing model by defining how the replica data center measures execution cost and proves core promotion.
+
+v0.1 defined the basic breathing core.
+
+v0.2 defined staging and exhalation.
+
+v0.3 defined the repair immune layer.
+
+v0.4 defined the coordination layer.
+
+v0.5 defines the measurement and receipt layer:
+
+* How many replicas may be active
+* How many tokens may be used
+* How long a task may run
+* Whether the core model may be activated
+* How execution metrics are recorded
+* Whether the core model was avoided
+* How many records were discarded or retained
+* What estimated savings were achieved
+* What was promoted to the core data center
+* Why it was promoted
+* Which artifacts were retained
+* Whether human review approved the promotion
+* Which trace and audit records are required
+
+The goal is to make energy efficiency and core promotion auditable rather than merely aspirational.
+
+### Core Flow
+
+```text
+Measure -> Budget -> Receipt -> Promote
+```
+
+The measurement and receipt loop complements the breathing, repair, and coordination flows:
+
+```text
+Inhale -> Stage -> Filter -> Compress -> Audit -> Exhale -> Retain or Promote
+                                      |
+                                      v
+                              Detect -> Isolate -> Repair -> Re-audit
+                                      |
+                                      v
+                              Assign -> Handoff -> Synchronize -> Resolve
+                                      |
+                                      v
+                              Measure -> Budget -> Receipt -> Promote
+```
+
+### Notes
+
+This release establishes the energy budget and promotion receipt layer for AI replica breathing infrastructure.
+
+The protocol can now describe not only intake, staging, exhalation, retention, repair, and coordination, but also measurable execution cost and traceable promotion into the core data center.
+
+This makes the replica data center more accountable as an energy-aware infrastructure layer.
+
+Future versions may extend the protocol with:
+
+* Human review gates
+* Replica orchestration receipts
+* Cross-replica conflict resolution
+* Runtime budget enforcement profiles
+* Local-first execution profiles
+* Core memory promotion lifecycle
+* External audit export formats
+
 ## [0.4.0-candidate] - 2026-07-01
 
 ### Added
@@ -368,6 +501,5 @@ Future versions may extend the protocol with:
 * Multi-replica coordination
 * Energy-saving metrics
 * Core memory promotion receipts
-
 
 
