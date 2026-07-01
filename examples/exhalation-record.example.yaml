@@ -1,0 +1,21 @@
+schema_version: "0.2.0"
+exhalation_id: "exhale-2026-07-01-001"
+created_at: "2026-07-01T00:00:00Z"
+cycle_id: "breath-cycle-2026-07-01-001"
+replica_id: "replica-compressor-001"
+source_zone: "shadow_staging"
+action: "compress_and_keep"
+reason: "Raw input was useful but too verbose for direct core promotion."
+
+data_handling:
+  raw_data_deleted: false
+  summary_retained: true
+  hash_retained: true
+  destination: "summary_cache"
+  content_hash: "sha256:example-placeholder-hash"
+
+audit:
+  trace_required: true
+  audit_required: true
+  review_status: "not_required"
+  notes: "Summary and hash retained; raw record remains temporary until retention expiry."
