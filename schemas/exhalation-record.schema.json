@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/exhalation-record.schema.json",
+  "title": "Exhalation Record",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "exhalation_id",
+    "created_at",
+    "cycle_id",
+    "replica_id",
+    "source_zone",
+    "action",
+    "reason",
+    "data_handling",
+    "audit"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.2.0"
+    },
+    "exhalation_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cycle_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "replica_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "source_zone": {
+      "type": "string",
+      "enum": [
+        "shadow_staging",
+        "candidate_pool",
+        "summary_cache",
+        "quarantine",
+        "discard_buffer"
+      ]
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "discard",
+        "expire",
+        "quarantine",
+        "compress_and_keep",
+        "promote_to_core",
+        "keep_as_trace_only"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "data_handling": {
+      "type": "object",
+      "required": [
+        "raw_data_deleted",
+        "summary_retained",
+        "hash_retained",
+        "destination"
+      ],
+      "properties": {
+        "raw_data_deleted": {
+          "type": "boolean"
+        },
+        "summary_retained": {
+          "type": "boolean"
+        },
+        "hash_retained": {
+          "type": "boolean"
+        },
+        "destination": {
+          "type": "string",
+          "enum": [
+            "none",
+            "discard_buffer",
+            "summary_cache",
+            "quarantine",
+            "core_memory",
+            "core_datacenter",
+            "audit_archive"
+          ]
+        },
+        "content_hash": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "audit": {
+      "type": "object",
+      "required": [
+        "trace_required",
+        "audit_required",
+        "review_status"
+      ],
+      "properties": {
+        "trace_required": {
+          "type": "boolean"
+        },
+        "audit_required": {
+          "type": "boolean"
+        },
+        "review_status": {
+          "type": "string",
+          "enum": [
+            "not_required",
+            "pending_human_review",
+            "approved",
+            "rejected"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
