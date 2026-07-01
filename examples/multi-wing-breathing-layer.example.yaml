@@ -1,0 +1,63 @@
+schema_version: "0.6.0"
+layer_id: "multi-wing-breathing-layer-001"
+multi_wing_system: "kazene-replica-breathing-system"
+integration_mode: "schema_profile"
+
+enabled_wings:
+  - "finder"
+  - "analyst"
+  - "compressor"
+  - "auditor"
+  - "repair"
+  - "coordinator"
+  - "boundary"
+  - "human_gate"
+  - "trace_core"
+
+breathing_mapping:
+  intake: "finder"
+  filtering: "analyst"
+  compression: "compressor"
+  audit: "auditor"
+  repair: "repair"
+  coordination: "coordinator"
+  promotion_boundary: "boundary"
+  human_review: "human_gate"
+  receipt: "trace_core"
+
+required_protocol_layers:
+  breathing_cycle: true
+  staging_exhalation: true
+  repair_loop: true
+  coordination: true
+  energy_budget: true
+  promotion_receipt: true
+
+core_boundary:
+  direct_core_write_allowed: false
+  promotion_receipt_required: true
+  human_review_for_core_write: true
+  allowed_core_destinations:
+    - "core_memory"
+    - "core_datacenter"
+    - "origin_registry"
+    - "audit_archive"
+    - "royalty_record"
+
+trace_requirements:
+  trace_required: true
+  audit_required: true
+  handoff_receipts_required: true
+  repair_records_required: true
+  execution_metrics_required: true
+  promotion_receipts_required: true
+
+safety_boundary:
+  no_unlimited_self_replication: true
+  no_unbounded_parallelism: true
+  no_unbounded_runtime: true
+  no_unbounded_token_growth: true
+  no_core_activation_without_policy: true
+  human_gate_available: true
+
+notes: "This profile defines the AI Replica Breathing Data Center Protocol as the Breathing Layer of a Multi-Wing AI infrastructure."
