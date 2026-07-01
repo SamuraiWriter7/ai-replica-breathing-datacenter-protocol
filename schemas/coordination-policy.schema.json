@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/coordination-policy.schema.json",
+  "title": "Coordination Policy",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "policy_id",
+    "coordination_mode",
+    "max_active_replicas",
+    "role_assignment",
+    "handoff_rules",
+    "conflict_resolution",
+    "safety_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.4.0"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "coordination_mode": {
+      "type": "string",
+      "enum": [
+        "sequential",
+        "parallel",
+        "supervised_parallel",
+        "orchestrated"
+      ]
+    },
+    "max_active_replicas": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "role_assignment": {
+      "type": "object",
+      "required": [
+        "assignment_mode",
+        "allowed_roles"
+      ],
+      "properties": {
+        "assignment_mode": {
+          "type": "string",
+          "enum": [
+            "static",
+            "orchestrator_assigned",
+            "policy_based",
+            "human_assigned"
+          ]
+        },
+        "allowed_roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "intake",
+              "classifier",
+              "compressor",
+              "auditor",
+              "generator",
+              "repair",
+              "orchestrator",
+              "reviewer"
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "handoff_rules": {
+      "type": "object",
+      "required": [
+        "handoff_required",
+        "handoff_receipt_required",
+        "handoff_timeout_seconds"
+      ],
+      "properties": {
+        "handoff_required": {
+          "type": "boolean"
+        },
+        "handoff_receipt_required": {
+          "type": "boolean"
+        },
+        "handoff_timeout_seconds": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "conflict_resolution": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "default_strategy",
+        "human_review_on_unresolved_conflict"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "default_strategy": {
+          "type": "string",
+          "enum": [
+            "auditor_decides",
+            "orchestrator_decides",
+            "majority_vote",
+            "highest_confidence",
+            "human_review"
+          ]
+        },
+        "human_review_on_unresolved_conflict": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "safety_boundary": {
+      "type": "object",
+      "required": [
+        "no_unbounded_parallelism",
+        "no_direct_core_write",
+        "trace_required",
+        "audit_required"
+      ],
+      "properties": {
+        "no_unbounded_parallelism": {
+          "type": "boolean"
+        },
+        "no_direct_core_write": {
+          "type": "boolean"
+        },
+        "trace_required": {
+          "type": "boolean"
+        },
+        "audit_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
