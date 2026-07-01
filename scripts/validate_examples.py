@@ -52,6 +52,21 @@ VALIDATION_TARGETS = [
         ROOT / "schemas" / "repair-record.schema.json",
         ROOT / "examples" / "repair-record.example.yaml",
     ),
+    (
+        "Coordination Policy",
+        ROOT / "schemas" / "coordination-policy.schema.json",
+        ROOT / "examples" / "coordination-policy.example.yaml",
+    ),
+    (
+        "Replica Handoff",
+        ROOT / "schemas" / "replica-handoff.schema.json",
+        ROOT / "examples" / "replica-handoff.example.yaml",
+    ),
+    (
+        "Coordination Record",
+        ROOT / "schemas" / "coordination-record.schema.json",
+        ROOT / "examples" / "coordination-record.example.yaml",
+    ),
 ]
 
 def load_json(path: Path):
