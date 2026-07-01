@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/energy-budget-policy.schema.json",
+  "title": "Energy Budget Policy",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "policy_id",
+    "budget_scope",
+    "max_active_replicas",
+    "token_budget",
+    "compute_budget",
+    "energy_tracking",
+    "fallback_action",
+    "safety_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.5.0"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "budget_scope": {
+      "type": "string",
+      "enum": [
+        "single_replica",
+        "breathing_cycle",
+        "coordination_task",
+        "repair_loop",
+        "promotion_flow",
+        "cluster"
+      ]
+    },
+    "max_active_replicas": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "token_budget": {
+      "type": "object",
+      "required": [
+        "max_input_tokens",
+        "max_output_tokens",
+        "max_total_tokens"
+      ],
+      "properties": {
+        "max_input_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_output_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_total_tokens": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "compute_budget": {
+      "type": "object",
+      "required": [
+        "max_runtime_seconds",
+        "max_repair_attempts",
+        "allow_core_model_activation"
+      ],
+      "properties": {
+        "max_runtime_seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_repair_attempts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "allow_core_model_activation": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "energy_tracking": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "measurement_mode",
+        "report_estimated_savings"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "measurement_mode": {
+          "type": "string",
+          "enum": [
+            "none",
+            "estimated",
+            "measured",
+            "hybrid"
+          ]
+        },
+        "report_estimated_savings": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "fallback_action": {
+      "type": "string",
+      "enum": [
+        "stop_cycle",
+        "compress_and_stop",
+        "request_human_review",
+        "defer_to_core",
+        "discard_low_value_records"
+      ]
+    },
+    "safety_boundary": {
+      "type": "object",
+      "required": [
+        "no_unbounded_runtime",
+        "no_unbounded_token_growth",
+        "no_core_activation_without_policy",
+        "trace_required",
+        "audit_required"
+      ],
+      "properties": {
+        "no_unbounded_runtime": {
+          "type": "boolean"
+        },
+        "no_unbounded_token_growth": {
+          "type": "boolean"
+        },
+        "no_core_activation_without_policy": {
+          "type": "boolean"
+        },
+        "trace_required": {
+          "type": "boolean"
+        },
+        "audit_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
