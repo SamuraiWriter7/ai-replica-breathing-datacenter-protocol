@@ -1,0 +1,32 @@
+schema_version: "0.4.0"
+handoff_id: "handoff-2026-07-01-001"
+created_at: "2026-07-01T00:00:00Z"
+
+source_replica:
+  replica_id: "replica-classifier-001"
+  role: "classifier"
+
+target_replica:
+  replica_id: "replica-compressor-001"
+  role: "compressor"
+
+handoff_type: "classifier_to_compressor"
+payload_summary: "A staged user input was classified as a promotion candidate and handed off for compression."
+
+state_transfer:
+  transfers_raw_data: false
+  transfers_summary: true
+  transfers_trace: true
+  transfers_audit_status: false
+  state_hash: "sha256:example-coordination-state-hash"
+
+boundary:
+  target_may_modify_payload: true
+  target_may_promote_to_core: false
+  human_review_required: false
+
+receipt:
+  receipt_required: true
+  acknowledged: true
+  status: "accepted"
+  notes: "Compressor replica accepted the handoff with summary and trace state."
