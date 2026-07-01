@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/replica-agent.schema.json",
+  "title": "Replica Agent",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "replica_id",
+    "role",
+    "model",
+    "permissions",
+    "memory_scope",
+    "trace_required",
+    "audit_required"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "replica_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "intake",
+        "classifier",
+        "compressor",
+        "auditor",
+        "generator",
+        "repair",
+        "orchestrator"
+      ]
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "permissions": {
+      "type": "object",
+      "required": [
+        "network_access",
+        "shell_access",
+        "file_read",
+        "file_write",
+        "core_promotion"
+      ],
+      "properties": {
+        "network_access": {
+          "type": "boolean"
+        },
+        "shell_access": {
+          "type": "boolean"
+        },
+        "file_read": {
+          "type": "string",
+          "enum": [
+            "none",
+            "limited",
+            "staging_only",
+            "full"
+          ]
+        },
+        "file_write": {
+          "type": "string",
+          "enum": [
+            "none",
+            "limited",
+            "staging_only",
+            "full"
+          ]
+        },
+        "core_promotion": {
+          "type": "string",
+          "enum": [
+            "forbidden",
+            "suggest_only",
+            "requires_human_review",
+            "allowed"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "memory_scope": {
+      "type": "object",
+      "required": [
+        "namespace",
+        "retention_days"
+      ],
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retention_days": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "trace_required": {
+      "type": "boolean"
+    },
+    "audit_required": {
+      "type": "boolean"
+    },
+    "human_review_required": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "additionalProperties": false
+}
