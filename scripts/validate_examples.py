@@ -67,6 +67,21 @@ VALIDATION_TARGETS = [
         ROOT / "schemas" / "coordination-record.schema.json",
         ROOT / "examples" / "coordination-record.example.yaml",
     ),
+        (
+        "Energy Budget Policy",
+        ROOT / "schemas" / "energy-budget-policy.schema.json",
+        ROOT / "examples" / "energy-budget-policy.example.yaml",
+    ),
+    (
+        "Execution Metrics Record",
+        ROOT / "schemas" / "execution-metrics-record.schema.json",
+        ROOT / "examples" / "execution-metrics-record.example.yaml",
+    ),
+    (
+        "Promotion Receipt",
+        ROOT / "schemas" / "promotion-receipt.schema.json",
+        ROOT / "examples" / "promotion-receipt.example.yaml",
+    ),
 ]
 
 def load_json(path: Path):
