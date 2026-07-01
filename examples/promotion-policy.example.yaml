@@ -1,0 +1,13 @@
+schema_version: "0.1.0"
+policy_id: "default-promotion-policy-001"
+min_reuse_score: 0.7
+min_origin_value: 0.65
+max_risk_score: 0.3
+require_trace_record: true
+require_human_review: true
+default_action: "compress"
+allowed_destinations:
+  - "core_memory"
+  - "core_datacenter"
+  - "origin_registry"
+  - "audit_archive"
