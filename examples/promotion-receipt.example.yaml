@@ -1,0 +1,45 @@
+schema_version: "0.5.0"
+receipt_id: "promotion-receipt-2026-07-01-001"
+created_at: "2026-07-01T00:00:00Z"
+
+source:
+  cycle_id: "breath-cycle-2026-07-01-001"
+  coordination_id: "coordination-2026-07-01-001"
+  source_zone: "candidate_pool"
+  source_replica: "replica-orchestrator-001"
+
+destination:
+  target: "core_datacenter"
+  write_mode: "human_approved_write"
+
+promotion_decision:
+  approved: true
+  decision_basis: "coordination_consensus"
+  reuse_score: 0.84
+  origin_value: 0.79
+  risk_score: 0.16
+
+retained_artifacts:
+  raw_data_retained: false
+  summary_retained: true
+  hash_retained: true
+  trace_retained: true
+  audit_retained: true
+  content_hash: "sha256:example-promotion-content-hash"
+
+efficiency_summary:
+  core_model_avoided_before_promotion: true
+  compressed_before_promotion: true
+  discarded_low_value_records: 3
+  estimated_savings_ratio: 0.78
+
+human_review:
+  required: true
+  status: "approved"
+  reviewer: "human-supervisor"
+
+trace:
+  trace_required: true
+  audit_required: true
+  receipt_required: true
+  notes: "Promotion was approved after coordinated replica processing, repair, audit, and human review."
