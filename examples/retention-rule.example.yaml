@@ -1,0 +1,13 @@
+schema_version: "0.2.0"
+rule_id: "raw-input-retention-rule-001"
+target_zone: "shadow_staging"
+record_type: "raw_input"
+retention_days: 14
+on_expiration: "keep_summary_only"
+
+audit_requirement:
+  audit_required: false
+  trace_required: true
+  human_review_required: false
+
+notes: "Raw intake records are reduced after 14 days unless promoted or quarantined."
