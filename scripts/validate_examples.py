@@ -37,6 +37,21 @@ VALIDATION_TARGETS = [
         ROOT / "schemas" / "retention-rule.schema.json",
         ROOT / "examples" / "retention-rule.example.yaml",
     ),
+    (
+        "Repair Policy",
+        ROOT / "schemas" / "repair-policy.schema.json",
+        ROOT / "examples" / "repair-policy.example.yaml",
+    ),
+    (
+        "Repair Loop",
+        ROOT / "schemas" / "repair-loop.schema.json",
+        ROOT / "examples" / "repair-loop.example.yaml",
+    ),
+    (
+        "Repair Record",
+        ROOT / "schemas" / "repair-record.schema.json",
+        ROOT / "examples" / "repair-record.example.yaml",
+    ),
 ]
 
 def load_json(path: Path):
