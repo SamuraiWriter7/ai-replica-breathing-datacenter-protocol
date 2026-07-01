@@ -22,8 +22,22 @@ VALIDATION_TARGETS = [
         ROOT / "schemas" / "promotion-policy.schema.json",
         ROOT / "examples" / "promotion-policy.example.yaml",
     ),
+    (
+        "Staging Policy",
+        ROOT / "schemas" / "staging-policy.schema.json",
+        ROOT / "examples" / "staging-policy.example.yaml",
+    ),
+    (
+        "Exhalation Record",
+        ROOT / "schemas" / "exhalation-record.schema.json",
+        ROOT / "examples" / "exhalation-record.example.yaml",
+    ),
+    (
+        "Retention Rule",
+        ROOT / "schemas" / "retention-rule.schema.json",
+        ROOT / "examples" / "retention-rule.example.yaml",
+    ),
 ]
-
 
 def load_json(path: Path):
     with path.open("r", encoding="utf-8") as f:
